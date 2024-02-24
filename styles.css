@@ -5,14 +5,23 @@ body {
     font-family: "Anta", sans-serif;
     font-weight: 400;
     font-style: normal;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
 }
 
 h1 {
     font-size: 3em;
+}
+
+#search, #search-btn {
+    height: 30px;
+    font-family: "Anta", sans-serif;
+}
+
+#search-btn {
+    background-color: white;
 }
 
 main {
@@ -20,17 +29,22 @@ main {
     padding-inline-start: 40px;
     padding-inline-end: 40px;
     grid-gap: 40px;
-    grid-template-columns: auto;
+    grid-template-columns: 30% 30% 30%;
 }
 
 .displayResults {
     display: flex;
     flex-direction: column;
-    max-width: 400px;
+    /* max-width: 400px; */
 }
 
 .title, .displayImage, .description {
     padding: 10px;
+}
+
+.title {
+    height: 80px;
+    overflow-y: auto;
 }
 
 .description {
@@ -38,4 +52,9 @@ main {
     overflow-y: auto;
     scrollbar-color: white #bada55;
     scrollbar-gutter: stable;
+    text-align: justify;
+}
+
+.displayImage {
+    max-height: 250px;
 }
