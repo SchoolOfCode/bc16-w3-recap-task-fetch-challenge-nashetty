@@ -33,3 +33,28 @@ const endpoint3 = '/search?q=JPL-20231222-SOLSYSf-0001-NASA%20Telescopes%20Revea
 fetchData(endpoint1)
 fetchData(endpoint2)
 fetchData(endpoint3)
+
+// Display data on the page
+async function displayOnPage() {
+
+    // get data from API
+    let NASAdata = await fetchData(endpoint1)
+
+    // get title, img and description div from DOM
+    const title = document.querySelector('.title')
+    const description = document.querySelector('.description')
+    const displayImage = document.querySelector('.displayImage')
+    
+    // create and update text content for title
+    let text = NASAdata.collection.items[0].data[0].title
+    title.textContent = text
+    
+    // create and update text content for description
+    text = NASAdata.collection.items[0].data[0].description
+    description.textContent = text
+
+    // display image
+    displayImage.src = NASAdata.collection.items[0].links[0].href
+    
+}
+displayOnPage()
