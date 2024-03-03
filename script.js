@@ -54,7 +54,7 @@ async function fetchTrendingData(endpoint) {
 // Endpoint should be in format - /search?q={q}
 // Trending pictures
 const endpoint1 = "/search?q=carina_nebula";
-const endpoint2 = "/search?q=GSFC_20171208_Archive_e002076";
+const endpoint2 = "/search?q=PIA15416";
 const endpoint3 = "/search?q=GSFC_20171208_Archive_e002159";
 
 // Display data on the page

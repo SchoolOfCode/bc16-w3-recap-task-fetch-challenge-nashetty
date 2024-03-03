@@ -19,7 +19,7 @@ h1 {
 
 #search,
 #search-btn {
-  height: 30px;
+  height: 35px;
   font-family: "Anta", sans-serif;
 }
 
@@ -28,6 +28,7 @@ h1 {
 }
 
 #trending {
+    font-size: 2em;
   margin-top: 40px;
   margin-bottom: 0;
 }
@@ -108,7 +109,7 @@ main {
 }
 
 .description::-webkit-scrollbar-thumb {
-  background-color: white; /* Color of the scrollbar thumb */
+  background-color: black; /* Color of the scrollbar thumb */
 }
 
 .description::-webkit-scrollbar-track {
