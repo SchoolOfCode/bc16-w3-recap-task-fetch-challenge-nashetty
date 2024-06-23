@@ -12,15 +12,15 @@
     />
     <!-- Local stylesheet -->
     <link href="styles.css" rel="stylesheet" />
-    
+
     <!-- sentry  -->
-    <script
-    src="https://js.sentry-cdn.com/1ab2f6c891b285a8f3f41a6e0d126038.min.js"
-    crossorigin="anonymous"
-  ></script>
+    <!-- <script
+      src="https://js.sentry-cdn.com/1ab2f6c891b285a8f3f41a6e0d126038.min.js"
+      crossorigin="anonymous"
+    ></script>
 
     <script>
-      Sentry.onLoad(function() {
+      Sentry.onLoad(function () {
         Sentry.init({
           // Performance Monitoring
           tracesSampleRate: 1.0, // Capture 100% of the transactions
@@ -29,12 +29,12 @@
           replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
         });
       });
-    </script>
+    </script> -->
     <!-- session replay  -->
-     <script
-     src="https://js.sentry-cdn.com/1ab2f6c891b285a8f3f41a6e0d126038.min.js"
-     crossorigin="anonymous"
-   ></script>
+    <!-- <script
+      src="https://js.sentry-cdn.com/1ab2f6c891b285a8f3f41a6e0d126038.min.js"
+      crossorigin="anonymous"
+    ></script> -->
 
     <title>Astronomy Snap Explorer</title>
   </head>
@@ -52,12 +52,19 @@
     <main>
       <!-- The layout will be as follows -->
       <!--
+      <div class="container">
+        
         <div class="displayResults">
+            <a>
+              <img class="displayImage">
+            </a>
             <h2 class="title"></h2>
-            <img class="displayImage">
+        </div>
+        <div class="displayDescription">
             <div class="description"></div> 
         </div>
-        -->
+      </div>
+      -->
     </main>
     <script src="script.js"></script>
   </body>

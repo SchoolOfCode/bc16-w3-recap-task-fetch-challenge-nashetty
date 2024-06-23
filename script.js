@@ -9,9 +9,10 @@ async function fetchSearchData() {
 
   // url for NASA API with the search input value
   // encode a URI (Uniform Resource Identifier) - searchInputValue before it is appended to the URL
+  // only fetch images (no videos or audio files)
   const url = `https://images-api.nasa.gov/search?q=${encodeURIComponent(
     searchInputValue
-  )}`;
+  )}&media_type=image`;
 
   const response = await fetch(url, {
     headers: {
@@ -51,11 +52,28 @@ async function fetchTrendingData(endpoint) {
   return data;
 }
 
+// get original size picture
+async function originalSizeImg(imgUrl) {
+  const response = await fetch(imgUrl, {headers: {accept: "application/json",},});
+  if (!response) {
+    console.error("Image coult not be retrieved");
+    return
+  }
+  // parse to jscon
+  const data = await response.json();
+  return data
+}
+
 // Endpoint should be in format - /search?q={q}
 // Trending pictures
 const endpoint1 = "/search?q=carina_nebula";
 const endpoint2 = "/search?q=PIA15416";
 const endpoint3 = "/search?q=GSFC_20171208_Archive_e002159";
+
+// to get the original size pictures, fetch request needs to be made to the following:
+// https://images-api.nasa.gov/asset/PIA15416
+// the original size photo is saved under collection.items[0].href
+// add functionality to display the full size image when the picture is clicked
 
 // Display data on the page
 async function displayOnPage() {
@@ -65,15 +83,21 @@ async function displayOnPage() {
   NASAdata.push(await fetchTrendingData(endpoint2));
   NASAdata.push(await fetchTrendingData(endpoint3));
   // get displayResults element from DOM
+  // const container = document.querySelector(".container");
   const main = document.querySelector("main");
   for (let i = 0; i < NASAdata.length; i++) {
     // create elements that are the same as title, img and description in displayResults div from DOM
+    const container = document.createElement("div");
+    container.classList.add("container");
     const displayResults = document.createElement("div");
     displayResults.classList.add("displayResults");
     const title = document.createElement("h2");
     title.classList.add("title");
+    const displayDescription = document.createElement("div");
+    displayDescription.classList.add("displayDescription");
     const description = document.createElement("div");
     description.classList.add("description");
+    const linkToOrigSizeImg = document.createElement("a")
     const displayImage = document.createElement("img");
     displayImage.classList.add("displayImage");
 
@@ -82,15 +106,34 @@ async function displayOnPage() {
     title.textContent = text;
     displayResults.appendChild(title);
 
+    //link to big image
+    let bigSizeImg = await originalSizeImg(NASAdata[i].collection.items[0].href)
+    console.log(bigSizeImg)
+    linkToOrigSizeImg.href = bigSizeImg[0]
+    linkToOrigSizeImg.target = '_blank'
     // display image
     displayImage.src = NASAdata[i].collection.items[0].links[0].href;
-    displayResults.appendChild(displayImage);
+    linkToOrigSizeImg.appendChild(displayImage);
+    displayResults.appendChild(linkToOrigSizeImg);
+    // displayResults.appendChild(displayImage);
 
     // create and update text content for description
     text = NASAdata[i].collection.items[0].data[0].description;
     description.textContent = text;
-    displayResults.appendChild(description);
-    main.appendChild(displayResults);
+    displayDescription.appendChild(description);
+    container.appendChild(displayResults);
+    container.appendChild(displayDescription);
+    main.appendChild(container);
+
+    displayDescription.addEventListener("click", function () {
+      displayDescription.style.display = "none";
+      displayResults.style.display = "flex";
+    });
+
+    title.addEventListener("click", function () {
+      displayResults.style.display = "none";
+      displayDescription.style.display = "flex";
+    });
   }
 
   // get searchBtn and input field  to add event listener to fetch data when the search button is clicked/enter pressed
@@ -115,16 +158,22 @@ async function renderData() {
   console.log(NASAdata);
 
   // get displayResults element from DOM and clear content
+  // const container = document.querySelector(".container");
   const main = document.querySelector("main");
   const trending = document.getElementById("trending");
   main.innerHTML = "";
+  // container.innerHTML = "";
   trending.innerHTML = "";
 
   // loop through every element in the NASAdata collection
   for (let i = 0; i < NASAdata.collection.items.length; i++) {
     // create elements that are the same as title, img and description in displayResults div from DOM
+    const container = document.createElement("div");
+    container.classList.add("container");
     const displayResults = document.createElement("div");
     displayResults.classList.add("displayResults");
+    const displayDescription = document.createElement("div");
+    displayDescription.classList.add("displayDescription");
 
     const title = document.createElement("h2");
     title.classList.add("title");
@@ -132,6 +181,7 @@ async function renderData() {
     const description = document.createElement("div");
     description.classList.add("description");
 
+    const linkToOrigSizeImg = document.createElement("a")
     const displayImage = document.createElement("img");
     displayImage.classList.add("displayImage");
 
@@ -140,14 +190,35 @@ async function renderData() {
     title.textContent = text;
     displayResults.appendChild(title);
 
+    //link to big image
+    let bigSizeImg = await originalSizeImg(NASAdata.collection.items[i].href)
+    console.log(bigSizeImg)
+    linkToOrigSizeImg.href = bigSizeImg[0]
+    linkToOrigSizeImg.target = '_blank'
+
     // display image
     displayImage.src = NASAdata.collection.items[i].links[0].href;
-    displayResults.appendChild(displayImage);
+    // displayResults.appendChild(displayImage);
+    linkToOrigSizeImg.appendChild(displayImage);
+    displayResults.appendChild(linkToOrigSizeImg);
 
     // create and update text content for description
     text = NASAdata.collection.items[i].data[0].description;
     description.textContent = text;
-    displayResults.appendChild(description);
-    main.appendChild(displayResults);
+    displayDescription.appendChild(description);
+    container.appendChild(displayResults);
+    container.appendChild(displayDescription);
+    main.appendChild(container);
+
+    // add event listener to display description/image based on click
+    displayDescription.addEventListener("click", function () {
+      displayDescription.style.display = "none";
+      displayResults.style.display = "flex";
+    });
+
+    title.addEventListener("click", function () {
+      displayResults.style.display = "none";
+      displayDescription.style.display = "flex";
+    });
   }
 }
