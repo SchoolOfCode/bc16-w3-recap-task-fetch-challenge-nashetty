@@ -1,3 +1,6 @@
+// TODO - maybe change the original image a tag, so that the api call is only made when the link is clicked?
+// refactor the code so it's not repetitive (initial data and new data)
+
 // fetch data and console log the object ✅
 // after testing in POSTMAN, the API key is not necessary
 
